@@ -47,7 +47,7 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'EncrypterFunctions',
   data() {
     return {
       box1: null,
@@ -143,35 +143,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-textarea {
-  max-width: 25%;
-}
-
-textarea.form-control {
-  max-width: 20%;
-}
-
-.main {
-  display: grid;
-  place-items: center;
-}
-
-/* do not worked background-color: #13d9eb !important; */
-body {
-  background-image: url('~@/assets/cryptoground.png') !important;
-}
-
-p {
-  margin-top: 1% !important;
-  /*margin-bottom: 5% !important; */
-}
-
-label {
-  /* margin-top: 5%; */
-  color: white;
-}
-
-.main {
-  margin-top: 10% !important;
-}
 </style>
