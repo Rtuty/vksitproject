@@ -14,14 +14,25 @@
 
       <p>
         <button class="btn btn-primary"
+                @click="test()">
+          Test
+        </button>
+
+        <button class="btn btn-primary"
                 @click="VernamCrypt()">
           Шифр Вернама
         </button>
-<!--        <button class="btn btn-primary" onClick="this.form.box2.value=AesCrypt(this.form.box1.value);">AES</button>-->
+
         <button class="btn btn-primary"
                 @click="CezarEncrypt()">
           Шифр Цезаря
         </button>
+
+        <button class="btn btn-primary"
+                @click="AesCrypt()">
+          AES
+        </button>
+        <!--        <button class="btn btn-primary" onClick="this.form.box2.value=AesCrypt(this.form.box1.value);">AES</button>-->
       </p>
 
       <label for="exampleFormControlTextarea2"
@@ -33,12 +44,14 @@
                 id="exampleFormControlTextarea2"
                 rows="3"
                 placeholder="Данные после шифрации/дешифрации"></textarea>
-
       <p>
-<!--        <button type="button" class="btn btn-primary" onClick="this.form.box2.value=CezarunEncrypt(this.form.box2.value);">Расшифровать шифр Цезаря</button>-->
         <button class="btn btn-primary"
                 @click="CezarunEncrypt()">
           Расшифровать шифр Цезаря
+        </button>
+        <button class="btn btn-primary"
+                @click="AesEncrypt()">
+          Расшифровать AES
         </button>
       </p>
     </div>
@@ -46,6 +59,10 @@
 </template>
 
 <script>
+import sha256 from 'crypto-js/sha256';
+import hmacSHA512 from 'crypto-js/hmac-sha512';
+import Base64 from 'crypto-js/enc-base64';
+
 export default {
   name: 'EncrypterFunctions',
   data() {
@@ -130,12 +147,28 @@ export default {
         this.box2 = output;
       },
 
-       AesCrypt(theText) {
+      //not worked
+      AesCrypt() {
+        var theText = this.box1
         var hex = theText.toString();
         var str = '';
         for (var i = 0; i < hex.length; i += 2)
           str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
-        return str;
+        this.box2 = str;
+      },
+
+      AesEncrypt() {
+        var hex = this.box1;
+        for(var i = 0; i < str.length; i++) {
+          hex += str.charCodeAt(i).toString(16);
+        }
+        this.box2 = hex;
+      },
+
+
+      test() {
+         let theText = this.box1
+         this.box2 = sha256(theText)
       }
 }
 }
