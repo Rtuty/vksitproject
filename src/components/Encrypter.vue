@@ -14,8 +14,8 @@
 
       <p>
         <button class="btn btn-primary"
-                @click="test()">
-          Test
+                @click="sha256()">
+          SHA256
         </button>
 
         <button class="btn btn-primary"
@@ -60,8 +60,7 @@
 
 <script>
 import sha256 from 'crypto-js/sha256';
-import hmacSHA512 from 'crypto-js/hmac-sha512';
-import Base64 from 'crypto-js/enc-base64';
+var CryptoJS = require("crypto-js");
 
 export default {
   name: 'EncrypterFunctions',
@@ -135,9 +134,6 @@ export default {
           console.log("Скопируйте новый ключ ↓");
           console.log(key);
         }
-
-        // чтобы расшифровать сообщение
-        // шифруем сообщение
         output = "";
         for (i = 0; i < input.length; i++) {
           inp = input.charCodeAt(i);
@@ -147,30 +143,22 @@ export default {
         this.box2 = output;
       },
 
-      //not worked
+    //worked
       AesCrypt() {
-        var theText = this.box1
-        var hex = theText.toString();
-        var str = '';
-        for (var i = 0; i < hex.length; i += 2)
-          str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
-        this.box2 = str;
+        this.box2 = CryptoJS.AES.encrypt(this.box1, '1234').toString()
       },
 
       AesEncrypt() {
-        var hex = this.box1;
-        for(var i = 0; i < str.length; i++) {
-          hex += str.charCodeAt(i).toString(16);
-        }
-        this.box2 = hex;
+        var bytes  = CryptoJS.AES.decrypt(this.box2, '1234');
+        this.box2 = bytes.toString(CryptoJS.enc.Utf8);
       },
 
-
-      test() {
+      //worked but useless :P TODO: do something with this donkey shit
+      sha256() {
          let theText = this.box1
          this.box2 = sha256(theText)
       }
-}
+  }
 }
 </script>
 
