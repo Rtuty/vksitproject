@@ -13,10 +13,15 @@
                 rows="3"></textarea>
 
       <p>
-<!--        <button class="btn btn-primary" onClick="this.form.box2.value=CezarEncrypt(this.form.box1.value);">Шифр Цезаря</button>-->
-<!--        <button class="btn btn-primary" onClick="this.form.box2.value=VernamCrypt(this.form.box1.value);">Шифр Вернама</button>-->
+        <button class="btn btn-primary"
+                @click="VernamCrypt()">
+          Шифр Вернама
+        </button>
 <!--        <button class="btn btn-primary" onClick="this.form.box2.value=AesCrypt(this.form.box1.value);">AES</button>-->
-        <button class="btn btn-primary" v-on:click="CezarEncrypt()">Шифр Цезаря</button>
+        <button class="btn btn-primary"
+                @click="CezarEncrypt()">
+          Шифр Цезаря
+        </button>
       </p>
 
       <label for="exampleFormControlTextarea2"
@@ -31,7 +36,10 @@
 
       <p>
 <!--        <button type="button" class="btn btn-primary" onClick="this.form.box2.value=CezarunEncrypt(this.form.box2.value);">Расшифровать шифр Цезаря</button>-->
-        <button type="button" class="btn btn-primary" onClick="this.form.box2.value=CezarunEncrypt(this.form.box2.value);">Расшифровать шифр Цезаря</button>
+        <button class="btn btn-primary"
+                @click="CezarunEncrypt()">
+          Расшифровать шифр Цезаря
+        </button>
       </p>
     </div>
   </form>
@@ -50,11 +58,12 @@ export default {
     msg: String
   },
   methods: {
+         //worked
        CezarEncrypt() {
          let theText = this.box1
-         let output = new String;
-         let Temp = new Array();
-         let Temp2 = new Array();
+         let output  = new String;
+         let Temp    = new Array();
+         let Temp2   = new Array();
          let TextSize = theText.length;
         for (let i = 0; i < TextSize; i++) {
           let rnd = Math.round(Math.random() * 122) + 68;
@@ -67,10 +76,12 @@ export default {
         this.box2 = output;
       },
 
+        //worked
        CezarunEncrypt() {
-        let output = new String;
-        let Temp = new Array();
-        let Temp2 = new Array();
+        let theText = this.box2
+        let output  = new String;
+        let Temp    = new Array();
+        let Temp2   = new Array();
         let TextSize = theText.length;
         for (let i = 0; i < TextSize; i++) {
           Temp[i] = theText.charCodeAt(i);
@@ -82,8 +93,10 @@ export default {
         this.box2 = output;
       },
 
-       VernamCrypt(theText)
-      {
+
+      //worked
+       VernamCrypt() {
+         var theText = this.box1
         // генератор случайных чисел в заданном диапазоне
         function getRandomInt(min, max) {
           return Math.floor(Math.random() * (max - min)) + min;
@@ -114,7 +127,7 @@ export default {
           k = key.charCodeAt(i);
           output += String.fromCharCode(inp ^ k);
         }
-        return output;
+        this.box2 = output;
       },
 
        AesCrypt(theText) {
