@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <nav>
-<!--      <router-link to="/">Home</router-link> |-->
-<!--      <router-link to="/about">About</router-link>-->
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
     </nav>
     <router-view/>
   </div>
@@ -14,7 +14,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #ffffff;
 }
 
 nav {
@@ -22,10 +22,10 @@ nav {
 
   a {
     font-weight: bold;
-    color: #2c3e50;
+    color: #ffffff;
 
     &.router-link-exact-active {
-      color: #42b983;
+      color: #2ae09f;
     }
   }
 }
@@ -42,7 +42,6 @@ textarea.form-control {
   place-items: center;
 }
 
-/* do not worked background-color: #13d9eb !important; */
 body {
   background-image: url('~@/assets/cryptoground.png') !important;
 }

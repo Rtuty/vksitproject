@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-<!--    <img alt="Vue logo" src="../assets/logo.png">-->
     <Encrypter msg="Welcome to Your Vue.js App"/>
+    <img alt="Vue logo" width="100" height="100" src="../assets/cyphe.png">
   </div>
 </template>
 
