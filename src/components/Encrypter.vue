@@ -12,7 +12,8 @@
                 placeholder="Введите текст для зашифровки/расшифровки..."
                 rows="3"></textarea>
 
-      <p>
+
+      <div class="cryptButtons">
         <button class="btn btn-primary"
                 @click="sha256()">
           SHA256
@@ -27,7 +28,10 @@
                 @click="CezarCrypt()">
           Шифр Цезаря
         </button>
+      </div>
 
+
+      <div class="cryptButtonsMain">
         <button class="btn btn-primary"
                 @click="AesCrypt()">
           AES
@@ -40,7 +44,8 @@
                 @click="TripleDESCrypt()">
           Triple DES
         </button>
-      </p>
+      </div>
+
 
       <label for="exampleFormControlTextarea2"
              class="form-label">
@@ -51,7 +56,9 @@
                 id="exampleFormControlTextarea2"
                 rows="3"
                 placeholder="Данные после шифрации/дешифрации"></textarea>
-      <p>
+
+
+      <div class="unCryptButtons">
         <button class="btn btn-primary"
                 @click="CezarunUncrypt()">
           Расшифровать шифр Цезаря
@@ -68,7 +75,9 @@
                 @click="TripleDESUncrypt()">
           Расшифровать Triple DES
         </button>
-      </p>
+      </div>
+
+
     </div>
   </form>
 </template>
@@ -200,6 +209,22 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped lang="scss">
+
+.cryptButtons {
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.cryptButtonsMain {
+  box-sizing: border-box;
+  padding: 0px;
+  margin-bottom: 20px;
+}
+
+.unCryptButtons {
+  box-sizing: border-box;
+  padding: 20px;
+}
 </style>

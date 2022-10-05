@@ -46,10 +46,6 @@ body {
   background-image: url('~@/assets/cryptoground.png') !important;
 }
 
-p {
-  margin-top: 1% !important;
-  /*margin-bottom: 5% !important; */
-}
 
 label {
   /* margin-top: 5%; */
@@ -57,6 +53,6 @@ label {
 }
 
 .main {
-  margin-top: 10% !important;
+  margin-top: 5% !important;
 }
 </style>
