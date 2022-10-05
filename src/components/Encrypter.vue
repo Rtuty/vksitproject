@@ -24,7 +24,7 @@
         </button>
 
         <button class="btn btn-primary"
-                @click="CezarEncrypt()">
+                @click="CezarCrypt()">
           Шифр Цезаря
         </button>
 
@@ -32,7 +32,14 @@
                 @click="AesCrypt()">
           AES
         </button>
-        <!--        <button class="btn btn-primary" onClick="this.form.box2.value=AesCrypt(this.form.box1.value);">AES</button>-->
+        <button class="btn btn-primary"
+                @click="DesCrypt()">
+          DES
+        </button>
+        <button class="btn btn-primary"
+                @click="TripleDESCrypt()">
+          Triple DES
+        </button>
       </p>
 
       <label for="exampleFormControlTextarea2"
@@ -46,12 +53,20 @@
                 placeholder="Данные после шифрации/дешифрации"></textarea>
       <p>
         <button class="btn btn-primary"
-                @click="CezarunEncrypt()">
+                @click="CezarunUncrypt()">
           Расшифровать шифр Цезаря
         </button>
         <button class="btn btn-primary"
-                @click="AesEncrypt()">
+                @click="AesUncrypt()">
           Расшифровать AES
+        </button>
+        <button class="btn btn-primary"
+                @click="DesUncrypt()">
+          Расшифровать DES
+        </button>
+        <button class="btn btn-primary"
+                @click="TripleDESUncrypt()">
+          Расшифровать Triple DES
         </button>
       </p>
     </div>
@@ -75,7 +90,7 @@ export default {
   },
   methods: {
          //worked
-       CezarEncrypt() {
+       CezarCrypt() {
          let theText = this.box1
          let output  = new String;
          let Temp    = new Array();
@@ -93,7 +108,7 @@ export default {
       },
 
         //worked
-       CezarunEncrypt() {
+       CezarunUncrypt() {
         let theText = this.box2
         let output  = new String;
         let Temp    = new Array();
@@ -145,19 +160,42 @@ export default {
 
     //worked
       AesCrypt() {
-        this.box2 = CryptoJS.AES.encrypt(this.box1, '1234').toString()
+        this.box2 = CryptoJS.AES.encrypt(this.box1, 'secret key').toString()
       },
 
-      AesEncrypt() {
-        var bytes  = CryptoJS.AES.decrypt(this.box2, '1234');
+     //worked
+      AesUncrypt() {
+        var bytes  = CryptoJS.AES.decrypt(this.box2, 'secret key');
         this.box2 = bytes.toString(CryptoJS.enc.Utf8);
       },
 
       //worked but useless :P TODO: do something with this donkey shit
       sha256() {
-         let theText = this.box1
-         this.box2 = sha256(theText)
+         this.box2 = sha256(this.box1)
+      },
+
+      //worked
+      DesCrypt() {
+         this.box2 = CryptoJS.DES.encrypt(this.box1, 'secret key').toString();
+      },
+
+      //worked
+      DesUncrypt() {
+        var bytes = CryptoJS.DES.decrypt(this.box2, 'secret key');
+        this.box2 = bytes.toString(CryptoJS.enc.Utf8);
+      },
+
+      //worked
+      TripleDESCrypt() {
+        this.box2 = CryptoJS.TripleDES.encrypt(this.box1, "Secret Passphrase").toString();
+      },
+
+      //worked
+      TripleDESUncrypt() {
+        var bytes = CryptoJS.TripleDES.decrypt(this.box2, "Secret Passphrase");
+        this.box2 = bytes.toString(CryptoJS.enc.Utf8)
       }
+
   }
 }
 </script>
