@@ -1,7 +1,6 @@
 <template>
   <form name="encform" onsubmit="return false;">
     <div class="main">
-
       <label for="exampleFormControlTextarea1"
              class="form-label">
         Исходные данные</label>
@@ -69,8 +68,7 @@
                 rows="3"
                 placeholder="Данные после шифрации/дешифрации"></textarea>
 
-
-      <div class="unCryptButtons">
+      <div class="unCryptButtons1">
         <button class="btn btn-primary"
                 @click="CezarunUncrypt()">
           Расшифровать шифр Цезаря
@@ -83,6 +81,9 @@
                 @click="DesUncrypt()">
           Расшифровать DES
         </button>
+      </div>
+
+      <div class="unCryptButtons2">
         <button class="btn btn-primary"
                 @click="TripleDESUncrypt()">
           Расшифровать Triple DES
@@ -238,8 +239,6 @@ export default {
   }
 }
 </script>
-
-
 <style scoped lang="scss">
 
 .cryptButtons {
@@ -262,10 +261,13 @@ button {
   margin-left: 8px;
 }
 
-
-
-.unCryptButtons {
-  box-sizing: border-box;
-  padding: 20px;
+.unCryptButtons1 {
+  padding-top: 20px;
 }
+
+.unCryptButtons2 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 </style>
