@@ -35,6 +35,10 @@
                 @click="CezarCrypt()">
           Шифр Цезаря
         </button>
+        <button class="btn btn-primary"
+                @click="RC4Crypt()">
+          RC4
+        </button>
       </div>
 
 
@@ -92,6 +96,10 @@
                 @click="RabbitUncrypt()">
           Расшифровать Rabbit
         </button>
+        <button class="btn btn-primary"
+                @click="RC4Uncrypt()">
+          Расшифровать RC4
+        </button>
       </div>
 
 
@@ -146,25 +154,7 @@ export default {
         this.box2 = output;
       },
 
-       CezarunUncrypt() {
-        let theText = this.box2
-        let output  = new String;
-        let Temp    = new Array();
-        let Temp2   = new Array();
-        let TextSize = theText.length;
-        for (let i = 0; i < TextSize; i++) {
-          Temp[i] = theText.charCodeAt(i);
-          Temp2[i] = theText.charCodeAt(i + 1);
-        }
-        for (let i = 0; i < TextSize; i = i+2) {
-          output += String.fromCharCode(Temp[i] - Temp2[i]);
-        }
-        this.box2 = output;
-      },
-
-
-
-       VernamCrypt() {
+    VernamCrypt() {
          var theText = this.box1
         // генератор случайных чисел в заданном диапазоне
         function getRandomInt(min, max) {
@@ -196,45 +186,70 @@ export default {
         this.box2 = output;
       },
 
+    RC4Crypt() {
+      this.box2 = CryptoJS.RC4.encrypt(this.box1, "Secret Passphrase").toString();
+    },
 
 
-      AesCrypt() {
+
+    AesCrypt() {
         this.box2 = CryptoJS.AES.encrypt(this.box1, 'secret key').toString()
       },
 
-      DesCrypt() {
+    DesCrypt() {
          this.box2 = CryptoJS.DES.encrypt(this.box1, 'secret key').toString();
       },
 
-      TripleDESCrypt() {
+    TripleDESCrypt() {
         this.box2 = CryptoJS.TripleDES.encrypt(this.box1, "Secret Passphrase").toString();
       },
 
-      RabbitCrypt() {
+    RabbitCrypt() {
         this.box2 = CryptoJS.Rabbit.encrypt(this.box1, "secret key").toString();
       },
 
 
 
-      DesUncrypt() {
+    CezarunUncrypt() {
+        let theText = this.box2
+        let output  = new String;
+        let Temp    = new Array();
+        let Temp2   = new Array();
+        let TextSize = theText.length;
+        for (let i = 0; i < TextSize; i++) {
+          Temp[i] = theText.charCodeAt(i);
+          Temp2[i] = theText.charCodeAt(i + 1);
+        }
+        for (let i = 0; i < TextSize; i = i+2) {
+          output += String.fromCharCode(Temp[i] - Temp2[i]);
+        }
+        this.box2 = output;
+      },
+
+    DesUncrypt() {
         var bytes = CryptoJS.DES.decrypt(this.box2, 'secret key');
         this.box2 = bytes.toString(CryptoJS.enc.Utf8);
       },
 
-      AesUncrypt() {
+    AesUncrypt() {
         var bytes  = CryptoJS.AES.decrypt(this.box2, 'secret key');
         this.box2 = bytes.toString(CryptoJS.enc.Utf8);
       },
 
-      TripleDESUncrypt() {
-        var bytes = CryptoJS.TripleDES.decrypt(this.box2, "Secret Passphrase");
-        this.box2 = bytes.toString(CryptoJS.enc.Utf8)
-      },
+    TripleDESUncrypt() {
+      var bytes = CryptoJS.TripleDES.decrypt(this.box2, "Secret Passphrase");
+      this.box2 = bytes.toString(CryptoJS.enc.Utf8)
+    },
 
-      RabbitUncrypt() {
-        var bytes = CryptoJS.Rabbit.decrypt(this.box2, "secret key")
-        this.box2 = bytes.toString(CryptoJS.enc.Utf8)
-      }
+    RabbitUncrypt() {
+      var bytes = CryptoJS.Rabbit.decrypt(this.box2, "secret key")
+      this.box2 = bytes.toString(CryptoJS.enc.Utf8)
+    },
+
+    RC4Uncrypt() {
+      var bytes = CryptoJS.RC4.decrypt(this.box2, "Secret Passphrase")
+      this.box2 = bytes.toString(CryptoJS.enc.Utf8)
+    }
 
   }
 }
