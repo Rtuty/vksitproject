@@ -12,12 +12,21 @@
                 placeholder="Введите текст для зашифровки/расшифровки..."
                 rows="3"></textarea>
 
-      <div class="cryptButtons">
+      <div class="salts">
         <button class="btn btn-primary"
                 @click="sha256()">
           SHA256
         </button>
-
+        <button class="btn btn-primary"
+                @click="md5()">
+          MD5
+        </button>
+        <button class="btn btn-primary"
+                @click="ripemd()">
+          RIPEMD-160
+        </button>
+      </div>
+      <div class="cryptButtons">
         <button class="btn btn-primary"
                 @click="VernamCrypt()">
           Шифр Вернама
@@ -42,6 +51,10 @@
         <button class="btn btn-primary"
                 @click="TripleDESCrypt()">
           Triple DES
+        </button>
+        <button class="btn btn-primary"
+                @click="RabbitCrypt()">
+          Rabbit
         </button>
       </div>
 
@@ -74,6 +87,10 @@
                 @click="TripleDESUncrypt()">
           Расшифровать Triple DES
         </button>
+        <button class="btn btn-primary"
+                @click="RabbitUncrypt()">
+          Расшифровать Rabbit
+        </button>
       </div>
 
 
@@ -82,7 +99,6 @@
 </template>
 
 <script>
-import sha256 from 'crypto-js/sha256';
 var CryptoJS = require("crypto-js");
 
 export default {
@@ -97,8 +113,22 @@ export default {
     msg: String
   },
   methods: {
-         //worked
-       CezarCrypt() {
+
+    sha256() {
+      this.box2 = CryptoJS.SHA256(this.box1);
+    },
+
+    md5() {
+      this.box2 = CryptoJS.MD5(this.box1);
+    },
+
+    ripemd() {
+      this.box2 = CryptoJS.RIPEMD160(this.box1);
+    },
+
+
+
+    CezarCrypt() {
          let theText = this.box1
          let output  = new String;
          let Temp    = new Array();
@@ -115,7 +145,6 @@ export default {
         this.box2 = output;
       },
 
-        //worked
        CezarunUncrypt() {
         let theText = this.box2
         let output  = new String;
@@ -133,7 +162,7 @@ export default {
       },
 
 
-      //worked
+
        VernamCrypt() {
          var theText = this.box1
         // генератор случайных чисел в заданном диапазоне
@@ -166,41 +195,43 @@ export default {
         this.box2 = output;
       },
 
-    //worked
+
+
       AesCrypt() {
         this.box2 = CryptoJS.AES.encrypt(this.box1, 'secret key').toString()
       },
 
-     //worked
-      AesUncrypt() {
-        var bytes  = CryptoJS.AES.decrypt(this.box2, 'secret key');
-        this.box2 = bytes.toString(CryptoJS.enc.Utf8);
-      },
-
-      //worked but useless :P TODO: do something with this donkey shit
-      sha256() {
-         this.box2 = sha256(this.box1)
-      },
-
-      //worked
       DesCrypt() {
          this.box2 = CryptoJS.DES.encrypt(this.box1, 'secret key').toString();
       },
 
-      //worked
+      TripleDESCrypt() {
+        this.box2 = CryptoJS.TripleDES.encrypt(this.box1, "Secret Passphrase").toString();
+      },
+
+      RabbitCrypt() {
+        this.box2 = CryptoJS.Rabbit.encrypt(this.box1, "secret key").toString();
+      },
+
+
+
       DesUncrypt() {
         var bytes = CryptoJS.DES.decrypt(this.box2, 'secret key');
         this.box2 = bytes.toString(CryptoJS.enc.Utf8);
       },
 
-      //worked
-      TripleDESCrypt() {
-        this.box2 = CryptoJS.TripleDES.encrypt(this.box1, "Secret Passphrase").toString();
+      AesUncrypt() {
+        var bytes  = CryptoJS.AES.decrypt(this.box2, 'secret key');
+        this.box2 = bytes.toString(CryptoJS.enc.Utf8);
       },
 
-      //worked
       TripleDESUncrypt() {
         var bytes = CryptoJS.TripleDES.decrypt(this.box2, "Secret Passphrase");
+        this.box2 = bytes.toString(CryptoJS.enc.Utf8)
+      },
+
+      RabbitUncrypt() {
+        var bytes = CryptoJS.Rabbit.decrypt(this.box2, "secret key")
         this.box2 = bytes.toString(CryptoJS.enc.Utf8)
       }
 
@@ -213,11 +244,12 @@ export default {
 
 .cryptButtons {
   box-sizing: border-box;
-  padding: 20px;
+  padding: 10px;
 }
 
-button {
-  margin-left: 8px;
+.salts {
+  box-sizing: border-box;
+  padding-top: 20px;
 }
 
 .cryptButtonsMain {
@@ -225,6 +257,12 @@ button {
   padding: 0px;
   margin-bottom: 20px;
 }
+
+button {
+  margin-left: 8px;
+}
+
+
 
 .unCryptButtons {
   box-sizing: border-box;
