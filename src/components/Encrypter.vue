@@ -12,7 +12,6 @@
                 placeholder="Введите текст для зашифровки/расшифровки..."
                 rows="3"></textarea>
 
-
       <div class="cryptButtons">
         <button class="btn btn-primary"
                 @click="sha256()">
@@ -215,6 +214,10 @@ export default {
 .cryptButtons {
   box-sizing: border-box;
   padding: 20px;
+}
+
+button {
+  margin-left: 8px;
 }
 
 .cryptButtonsMain {

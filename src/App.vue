@@ -29,6 +29,7 @@ nav {
     }
   }
 }
+
 textarea {
   max-width: 25%;
 }
