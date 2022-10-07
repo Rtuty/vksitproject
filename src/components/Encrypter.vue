@@ -11,7 +11,7 @@
                 placeholder="Введите текст для зашифровки/расшифровки..."
                 rows="3"></textarea>
 
-      <div class="salts">
+      <!-- <div class="salts">
         <button class="btn btn-primary"
                 @click="sha256()">
           SHA256
@@ -24,7 +24,7 @@
                 @click="ripemd()">
           RIPEMD-160
         </button>
-      </div>
+      </div> -->
       <div class="cryptButtons">
         <button class="btn btn-primary"
                 @click="VernamCrypt()">
