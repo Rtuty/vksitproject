@@ -4,32 +4,22 @@
       <label for="exampleFormControlTextarea1" class="form-label"> Исходные данные</label>
       <textarea name="box1" v-model="box1" class="form-control" id="exampleFormControlTextarea1" placeholder="Введите текст для зашифровки/расшифровки..." rows="3"></textarea>
       <b-form-textarea name="key" v-model="key" class="key" id="textarea-small" size="sm" placeholder="Введите ключ..."></b-form-textarea>
-      <!-- <div class="salts">
-        <button class="btn btn-primary"
-                @click="sha256()">
-          SHA256
-        </button>
-        <button class="btn btn-primary"
-                @click="md5()">
-          MD5
-        </button>
-        <button class="btn btn-primary"
-                @click="ripemd()">
-          RIPEMD-160
-        </button>
-      </div> -->
+      <div class="salts">
+        <!-- <button class="btn btn-primary" @click="encrypt('SHA256')">SHA256</button>
+        <button class="btn btn-primary" @click="encrypt('MD5')">MD5</button>
+        <button class="btn btn-primary" @click="encrypt('RIPEMD160')">RIPEMD-160</button> -->
+      </div>
       <div class="cryptButtons">
         <button class="btn btn-primary" @click="VernamCrypt()">Шифр Вернама</button>
-
         <button class="btn btn-primary" @click="CezarCrypt()">Шифр Цезаря</button>
-        <button class="btn btn-primary" @click="RC4Crypt()">RC4</button>
+        <button class="btn btn-primary" @click="encrypt('RC4')">RC4</button>
       </div>
 
       <div class="cryptButtonsMain">
-        <button class="btn btn-primary" @click="AesCrypt()">AES</button>
-        <button class="btn btn-primary" @click="DesCrypt()">DES</button>
-        <button class="btn btn-primary" @click="TripleDESCrypt()">Triple DES</button>
-        <button class="btn btn-primary" @click="RabbitCrypt()">Rabbit</button>
+        <button class="btn btn-primary" @click="encrypt('AES')">AES</button>
+        <button class="btn btn-primary" @click="encrypt('DES')">DES</button>
+        <button class="btn btn-primary" @click="encrypt('TripleDES')">Triple DES</button>
+        <button class="btn btn-primary" @click="encrypt('Rabbit')">Rabbit</button>
       </div>
 
       <label for="exampleFormControlTextarea2" class="form-label"> Результат программы</label>
@@ -66,6 +56,33 @@ export default {
     msg: String,
   },
   methods: {
+    encrypt(name) {
+      try {
+        const enc = CryptoJS[name]
+        if (!enc) {
+          throw Error('Шифр не зарегистрирован')
+        }
+
+        if (typeof enc.encrypt !== 'function') {
+          throw Error('Нет такой функции')
+        }
+
+        this.box2 = enc.encrypt(this.box1, this.key).toString()
+      } catch (e) {
+        this.$bvModal.msgBoxOk(e.message, {
+          title: 'Ошибка',
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: 'danger',
+          headerClass: 'p-2 border-bottom-0',
+          footerClass: 'p-2 border-top-0',
+          headerBgVariant: 'danger',
+          centered: true,
+        })
+      }
+    },
+
+    // TODO: Внести в функцию encrypt или удалить, так как соли не совсем подходят в концепцию программы
     sha256() {
       this.box2 = CryptoJS.SHA256(this.box1)
     },
@@ -91,6 +108,22 @@ export default {
       }
       for (let i = 0; i < TextSize; i++) {
         output += String.fromCharCode(Temp[i], Temp2[i])
+      }
+      this.box2 = output
+    },
+
+    CezarunUncrypt() {
+      let theText = this.box2
+      let output = new String()
+      let Temp = new Array()
+      let Temp2 = new Array()
+      let TextSize = theText.length
+      for (let i = 0; i < TextSize; i++) {
+        Temp[i] = theText.charCodeAt(i)
+        Temp2[i] = theText.charCodeAt(i + 1)
+      }
+      for (let i = 0; i < TextSize; i = i + 2) {
+        output += String.fromCharCode(Temp[i] - Temp2[i])
       }
       this.box2 = output
     },
@@ -128,107 +161,7 @@ export default {
       this.box2 = output
     },
 
-    RC4Crypt() {
-      try {
-        this.box2 = CryptoJS.RC4.encrypt(this.box1, this.key).toString()
-      } catch (e) {
-        this.$bvModal.msgBoxOk(e.message, {
-          title: 'Ошибка',
-          size: 'sm',
-          buttonSize: 'sm',
-          okVariant: 'danger',
-          headerClass: 'p-2 border-bottom-0',
-          footerClass: 'p-2 border-top-0',
-          headerBgVariant: 'danger',
-          centered: true,
-        })
-      }
-    },
-
-    AesCrypt() {
-      try {
-        this.box2 = CryptoJS.AES.encrypt(this.box1, this.key).toString()
-      } catch (e) {
-        this.$bvModal.msgBoxOk(e.message, {
-          title: 'Ошибка',
-          size: 'sm',
-          buttonSize: 'sm',
-          okVariant: 'danger',
-          headerClass: 'p-2 border-bottom-0',
-          footerClass: 'p-2 border-top-0',
-          headerBgVariant: 'danger',
-          centered: true,
-        })
-      }
-    },
-
-    DesCrypt() {
-      try {
-        this.box2 = CryptoJS.DES.encrypt(this.box1, this.key).toString()
-      } catch (e) {
-        this.$bvModal.msgBoxOk(e.message, {
-          title: 'Ошибка',
-          size: 'sm',
-          buttonSize: 'sm',
-          okVariant: 'danger',
-          headerClass: 'p-2 border-bottom-0',
-          footerClass: 'p-2 border-top-0',
-          headerBgVariant: 'danger',
-          centered: true,
-        })
-      }
-    },
-
-    TripleDESCrypt() {
-      try {
-        this.box2 = CryptoJS.TripleDES.encrypt(this.box1, this.key).toString()
-      } catch (e) {
-        this.$bvModal.msgBoxOk(e.message, {
-          title: 'Ошибка',
-          size: 'sm',
-          buttonSize: 'sm',
-          okVariant: 'danger',
-          headerClass: 'p-2 border-bottom-0',
-          footerClass: 'p-2 border-top-0',
-          headerBgVariant: 'danger',
-          centered: true,
-        })
-      }
-    },
-
-    RabbitCrypt() {
-      try {
-        this.box2 = CryptoJS.Rabbit.encrypt(this.box1, this.key).toString()
-      } catch (e) {
-        this.$bvModal.msgBoxOk(e.message, {
-          title: 'Ошибка',
-          size: 'sm',
-          buttonSize: 'sm',
-          okVariant: 'danger',
-          headerClass: 'p-2 border-bottom-0',
-          footerClass: 'p-2 border-top-0',
-          headerBgVariant: 'danger',
-          centered: true,
-        })
-      }
-    },
-
-    CezarunUncrypt() {
-      let theText = this.box2
-      let output = new String()
-      let Temp = new Array()
-      let Temp2 = new Array()
-      let TextSize = theText.length
-      for (let i = 0; i < TextSize; i++) {
-        Temp[i] = theText.charCodeAt(i)
-        Temp2[i] = theText.charCodeAt(i + 1)
-      }
-      for (let i = 0; i < TextSize; i = i + 2) {
-        output += String.fromCharCode(Temp[i] - Temp2[i])
-      }
-      this.box2 = output
-    },
-
+    // TODO: Написать общую функцию uncrypt
     DesUncrypt() {
       try {
         var bytes = CryptoJS.DES.decrypt(this.box2, this.key)
