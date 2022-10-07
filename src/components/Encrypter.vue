@@ -36,14 +36,14 @@
 
       <div class="unCryptButtons1">
         <button class="btn btn-primary" @click="CezarunUncrypt()">Расшифровать шифр Цезаря</button>
-        <button class="btn btn-primary" @click="AesUncrypt()">Расшифровать AES</button>
-        <button class="btn btn-primary" @click="DesUncrypt()">Расшифровать DES</button>
+        <button class="btn btn-primary" @click="decrypt('AES')">Расшифровать AES</button>
+        <button class="btn btn-primary" @click="decrypt('DES')">Расшифровать DES</button>
       </div>
 
       <div class="unCryptButtons2">
-        <button class="btn btn-primary" @click="TripleDESUncrypt()">Расшифровать Triple DES</button>
-        <button class="btn btn-primary" @click="RabbitUncrypt()">Расшифровать Rabbit</button>
-        <button class="btn btn-primary" @click="RC4Uncrypt()">Расшифровать RC4</button>
+        <button class="btn btn-primary" @click="decrypt('TripleDES')">Расшифровать Triple DES</button>
+        <button class="btn btn-primary" @click="decrypt('Rabbit')">Расшифровать Rabbit</button>
+        <button class="btn btn-primary" @click="decrypt('RC4')">Расшифровать RC4</button>
       </div>
     </div>
   </form>
@@ -73,10 +73,35 @@ export default {
         }
 
         if (typeof enc.encrypt !== 'function') {
-          throw Error('Нет такой функции')
+          throw Error('Функция не найдена')
         }
 
         this.box2 = enc.encrypt(this.box1, this.key).toString()
+      } catch (e) {
+        this.$bvModal.msgBoxOk(e.message, {
+          title: 'Ошибка',
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: 'danger',
+          headerClass: 'p-2 border-bottom-0',
+          footerClass: 'p-2 border-top-0',
+          headerBgVariant: 'danger',
+          centered: true,
+        })
+      }
+    },
+
+    decrypt(name) {
+      try {
+        const enc = CryptoJS[name]
+        if (!enc) {
+          throw Error('Шифр не зарегистрирован')
+        }
+        if (typeof enc.encrypt !== 'function') {
+          throw Error('Функция не найдена')
+        }
+
+        this.box2 = enc.decrypt(this.box2, this.key).toString(CryptoJS.enc.Utf8)
       } catch (e) {
         this.$bvModal.msgBoxOk(e.message, {
           title: 'Ошибка',
@@ -168,97 +193,6 @@ export default {
         output += String.fromCharCode(inp ^ k)
       }
       this.box2 = output
-    },
-
-    // TODO: Написать общую функцию uncrypt
-    DesUncrypt() {
-      try {
-        var bytes = CryptoJS.DES.decrypt(this.box2, this.key)
-        this.box2 = bytes.toString(CryptoJS.enc.Utf8)
-      } catch (e) {
-        this.$bvModal.msgBoxOk(e.message, {
-          title: 'Ошибка',
-          size: 'sm',
-          buttonSize: 'sm',
-          okVariant: 'danger',
-          headerClass: 'p-2 border-bottom-0',
-          footerClass: 'p-2 border-top-0',
-          headerBgVariant: 'danger',
-          centered: true,
-        })
-      }
-    },
-
-    AesUncrypt() {
-      try {
-        var bytes = CryptoJS.AES.decrypt(this.box2, this.key)
-        this.box2 = bytes.toString(CryptoJS.enc.Utf8)
-      } catch (e) {
-        this.$bvModal.msgBoxOk(e.message, {
-          title: 'Ошибка',
-          size: 'sm',
-          buttonSize: 'sm',
-          okVariant: 'danger',
-          headerClass: 'p-2 border-bottom-0',
-          footerClass: 'p-2 border-top-0',
-          headerBgVariant: 'danger',
-          centered: true,
-        })
-      }
-    },
-
-    TripleDESUncrypt() {
-      try {
-        var bytes = CryptoJS.TripleDES.decrypt(this.box2, this.key)
-        this.box2 = bytes.toString(CryptoJS.enc.Utf8)
-      } catch (e) {
-        this.$bvModal.msgBoxOk(e.message, {
-          title: 'Ошибка',
-          size: 'sm',
-          buttonSize: 'sm',
-          okVariant: 'danger',
-          headerClass: 'p-2 border-bottom-0',
-          footerClass: 'p-2 border-top-0',
-          headerBgVariant: 'danger',
-          centered: true,
-        })
-      }
-    },
-
-    RabbitUncrypt() {
-      try {
-        var bytes = CryptoJS.Rabbit.decrypt(this.box2, this.key)
-        this.box2 = bytes.toString(CryptoJS.enc.Utf8)
-      } catch (e) {
-        this.$bvModal.msgBoxOk(e.message, {
-          title: 'Ошибка',
-          size: 'sm',
-          buttonSize: 'sm',
-          okVariant: 'danger',
-          headerClass: 'p-2 border-bottom-0',
-          footerClass: 'p-2 border-top-0',
-          headerBgVariant: 'danger',
-          centered: true,
-        })
-      }
-    },
-
-    RC4Uncrypt() {
-      try {
-        var bytes = CryptoJS.RC4.decrypt(this.box2, this.key)
-        this.box2 = bytes.toString(CryptoJS.enc.Utf8)
-      } catch (e) {
-        this.$bvModal.msgBoxOk(e.message, {
-          title: 'Ошибка',
-          size: 'sm',
-          buttonSize: 'sm',
-          okVariant: 'danger',
-          headerClass: 'p-2 border-bottom-0',
-          footerClass: 'p-2 border-top-0',
-          headerBgVariant: 'danger',
-          centered: true,
-        })
-      }
     },
   },
 }
