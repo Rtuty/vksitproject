@@ -32,7 +32,7 @@
     "vue-template-compiler": "^2.6.14"
   },
   "description": "```\r npm install\r ```",
-  "main": ".eslintrc.js",
+  "main": "dist/*",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Rtuty/vksitproject.git"
