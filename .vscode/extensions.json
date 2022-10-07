@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+      "formulahendry.auto-close-tag",
+      "formulahendry.auto-rename-tag",
+      "editorconfig.editorconfig",
+      "esbenp.prettier-vscode",
+      "octref.vetur"
+    ]
+}
