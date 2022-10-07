@@ -11,7 +11,16 @@
       </div>
       <div class="cryptButtons">
         <button class="btn btn-primary" @click="VernamCrypt()">Шифр Вернама</button>
-        <button class="btn btn-primary" @click="CezarCrypt()">Шифр Цезаря</button>
+
+        <!-- TODO: Добавить тултипы с описанием шифров на каждую из кнопок  -->
+        <span id="help" class="d-inline-block" tabindex="0">
+          <button class="btn btn-primary" @click="CezarCrypt()">Шифр Цезаря</button>
+          <b-tooltip target="help"
+            >Шифр Цезаря — это вид шифра подстановки, в котором каждый символ в открытом тексте заменяется символом, находящимся на некотором постоянном числе позиций левее или правее него в алфавите.
+            Данный шифр используется без ключа</b-tooltip
+          >
+        </span>
+
         <button class="btn btn-primary" @click="encrypt('RC4')">RC4</button>
       </div>
 
