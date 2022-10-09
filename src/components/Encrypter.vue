@@ -5,27 +5,43 @@
       <textarea name="box1" v-model="box1" class="form-control" id="exampleFormControlTextarea1" placeholder="Введите текст для зашифровки/расшифровки..." rows="3"></textarea>
       <b-form-textarea name="key" v-model="key" class="key" id="textarea-small" size="sm" placeholder="Введите ключ..."></b-form-textarea>
       <div class="salts">
-        <!-- <button class="btn btn-primary" @click="encrypt('SHA256')">SHA256</button>
-        <button class="btn btn-primary" @click="encrypt('MD5')">MD5</button>
-        <button class="btn btn-primary" @click="encrypt('RIPEMD160')">RIPEMD-160</button> -->
+        <!-- <button class="btn btn-primary" @click="sha256()">SHA256</button>
+        <button class="btn btn-primary" @click="md5()">MD5</button>
+        <button class="btn btn-primary" @click="ripemd()">RIPEMD-160</button> -->
       </div>
       <div class="cryptButtons">
-        <button class="btn btn-primary" @click="VernamCrypt()">Шифр Вернама</button>
-
+        <span id="help1" class="d-inline-block" tabindex="0">
+          <button class="btn btn-primary" @click="VernamCrypt()">Шифр Вернама</button>
+          <b-tooltip target="help1" placement="left"
+            >Шифр Вернама основан на бинарной логике. Он обладает абсолютной криптографической стойкостью - без знания ключа, расшифровать его невозможно (доказано Клодом Шенноном). Также важное
+            уточнение, ключ должен быть больше или равен длинне кодируемого сообщения.</b-tooltip
+          >
+        </span>
         <!-- TODO: Добавить тултипы с описанием шифров на каждую из кнопок  -->
-        <span id="help" class="d-inline-block" tabindex="0">
+        <span id="help2" class="d-inline-block" tabindex="0">
           <button class="btn btn-primary" @click="CezarCrypt()">Шифр Цезаря</button>
-          <b-tooltip target="help"
+          <b-tooltip target="help2" placement="top"
             >Шифр Цезаря — это вид шифра подстановки, в котором каждый символ в открытом тексте заменяется символом, находящимся на некотором постоянном числе позиций левее или правее него в алфавите.
             Данный шифр используется без ключа</b-tooltip
           >
         </span>
-
-        <button class="btn btn-primary" @click="encrypt('RC4')">RC4</button>
+        <span id="help3" class="d-inline-block" tabindex="0"
+          ><button class="btn btn-primary" @click="encrypt('RC4')">RC4</button>
+          <b-tooltip target="help3" placement="right"
+            >Алгоритм RC4 разработан Р.Ривестом специально как генератор потока ключевой информации с ключом переменной длины. Генераторы псевдослучайных чисел, построенные с помощью таких алгоритмов,
+            как RC4, как правило, значительно быстрее генераторов, основанных на блочных шифрах. Алгоритм RC4 широко применяется в различных системах защиты информации и компьютерных сетях</b-tooltip
+          >
+        </span>
       </div>
 
       <div class="cryptButtonsMain">
-        <button class="btn btn-primary" @click="encrypt('AES')">AES</button>
+        <span id="help4" class="d-inline-block" tabindex="0">
+          <button class="btn btn-primary" @click="encrypt('AES')">AES</button
+          ><b-tooltip target="help4" placement="left">
+            Алгоритм шифрования AES представляет блок данных в виде двумерного байтового массива размером 4 на 4. Длинна ключа кратна 128, 192, 256 байтам. Все операции производятся над отдельными
+            байтами массива, а также на независимыми столбцами и строками. Данный алгоритм использует 10, 12 или 14 раундов (в зависимости от длинны ключа)</b-tooltip
+          >
+        </span>
         <button class="btn btn-primary" @click="encrypt('DES')">DES</button>
         <button class="btn btn-primary" @click="encrypt('TripleDES')">Triple DES</button>
         <button class="btn btn-primary" @click="encrypt('Rabbit')">Rabbit</button>
