@@ -4,6 +4,7 @@
       <label for="exampleFormControlTextarea1" class="form-label"> Исходные данные</label>
       <textarea name="box1" v-model="box1" class="form-control" id="exampleFormControlTextarea1" placeholder="Введите текст для зашифровки/расшифровки..." rows="3"></textarea>
       <b-form-textarea name="key" v-model="key" class="key" id="textarea-small" size="sm" placeholder="Введите ключ..."></b-form-textarea>
+      <b-form-checkbox v-model="checked" name="check-button" switch> Показывать информацию о шифрах </b-form-checkbox>
       <div class="salts">
         <!-- <button class="btn btn-primary" @click="sha256()">SHA256</button>
         <button class="btn btn-primary" @click="md5()">MD5</button>
@@ -12,39 +13,57 @@
       <div class="cryptButtons">
         <span id="help1" class="d-inline-block" tabindex="0">
           <button class="btn btn-primary" @click="VernamCrypt()">Шифр Вернама</button>
-          <b-tooltip target="help1" placement="left"
+          <b-tooltip target="help1" placement="left" v-if="checked === true"
             >Шифр Вернама основан на бинарной логике. Он обладает абсолютной криптографической стойкостью - без знания ключа, расшифровать его невозможно (доказано Клодом Шенноном). Также важное
-            уточнение, ключ должен быть больше или равен длинне кодируемого сообщения.</b-tooltip
-          >
+            уточнение, ключ должен быть больше или равен длинне кодируемого сообщения.
+          </b-tooltip>
         </span>
-        <!-- TODO: Добавить тултипы с описанием шифров на каждую из кнопок  -->
         <span id="help2" class="d-inline-block" tabindex="0">
           <button class="btn btn-primary" @click="CezarCrypt()">Шифр Цезаря</button>
-          <b-tooltip target="help2" placement="top"
+          <b-tooltip target="help2" placement="top" v-if="checked === true"
             >Шифр Цезаря — это вид шифра подстановки, в котором каждый символ в открытом тексте заменяется символом, находящимся на некотором постоянном числе позиций левее или правее него в алфавите.
-            Данный шифр используется без ключа</b-tooltip
-          >
+            Данный шифр используется без ключа
+          </b-tooltip>
         </span>
         <span id="help3" class="d-inline-block" tabindex="0"
           ><button class="btn btn-primary" @click="encrypt('RC4')">RC4</button>
-          <b-tooltip target="help3" placement="right"
+          <b-tooltip target="help3" placement="right" v-if="checked === true"
             >Алгоритм RC4 разработан Р.Ривестом специально как генератор потока ключевой информации с ключом переменной длины. Генераторы псевдослучайных чисел, построенные с помощью таких алгоритмов,
-            как RC4, как правило, значительно быстрее генераторов, основанных на блочных шифрах. Алгоритм RC4 широко применяется в различных системах защиты информации и компьютерных сетях</b-tooltip
-          >
+            как RC4, как правило, значительно быстрее генераторов, основанных на блочных шифрах. Алгоритм RC4 широко применяется в различных системах защиты информации и компьютерных сетях
+          </b-tooltip>
         </span>
       </div>
 
       <div class="cryptButtonsMain">
         <span id="help4" class="d-inline-block" tabindex="0">
           <button class="btn btn-primary" @click="encrypt('AES')">AES</button
-          ><b-tooltip target="help4" placement="left">
+          ><b-tooltip target="help4" placement="left" v-if="checked === true">
             Алгоритм шифрования AES представляет блок данных в виде двумерного байтового массива размером 4 на 4. Длинна ключа кратна 128, 192, 256 байтам. Все операции производятся над отдельными
-            байтами массива, а также на независимыми столбцами и строками. Данный алгоритм использует 10, 12 или 14 раундов (в зависимости от длинны ключа)</b-tooltip
-          >
+            байтами массива, а также на независимыми столбцами и строками. Данный алгоритм использует 10, 12 или 14 раундов (в зависимости от длинны ключа)
+          </b-tooltip>
         </span>
-        <button class="btn btn-primary" @click="encrypt('DES')">DES</button>
-        <button class="btn btn-primary" @click="encrypt('TripleDES')">Triple DES</button>
-        <button class="btn btn-primary" @click="encrypt('Rabbit')">Rabbit</button>
+        <span id="help5" class="d-inline-block" tabindex="0">
+          <button class="btn btn-primary" @click="encrypt('DES')">DES</button>
+          <b-tooltip target="help5" placement="down" v-if="checked === true">
+            DES алгоритм симметричного шифрования, разработанный компанией IBM. Размер блока для DES равен 64 битам. В основе алгоритма лежит сеть Фейстеля с 16 раундами и ключом, имеющим длину 56
+            бит. Алгоритм использует комбинацию нелинейных и линейных преобразований.
+          </b-tooltip>
+        </span>
+        <span id="help6" class="d-inline-block" tabindex="0">
+          <button class="btn btn-primary" @click="encrypt('TripleDES')">Triple DES</button>
+          <b-tooltip target="help6" placement="down" v-if="checked === true">
+            Triple DES - симметричный блочный шифр, созданный Уитфилдом Диффи, Мартином Хеллманом и Уолтом Тачманном в 1978 году на основе алгоритма DES с целью устранения главного недостатка
+            последнего — малой длины ключа (56 бит), который может быть взломан методом полного перебора ключа. Скорость работы 3DES в 3 раза ниже, чем у DES, но криптостойкость намного выше.
+          </b-tooltip>
+        </span>
+        <span id="help7" class="d-inline-block" tabindex="0">
+          <button class="btn btn-primary" @click="encrypt('Rabbit')">Rabbit</button>
+          <b-tooltip target="help7" placement="rightbottom" v-if="checked === true">
+            Rabbit - шифр, использующий 128-битный ключ и 64-битный инициализирующий вектор. Шифр был разработан с целью использования в программном обеспечении, как обладающий высокой скоростью
+            шифрования. При этом скорость шифрования могла достигать 3.7 циклов в байт для процессора Pentium 3 и 10.5 циклов в байт для ARM7. Тем не менее, шифр также оказался быстрым и компактным
+            при реализации в аппаратном обеспечении.
+          </b-tooltip>
+        </span>
       </div>
 
       <label for="exampleFormControlTextarea2" class="form-label"> Результат программы</label>
@@ -75,6 +94,7 @@ export default {
       box1: null,
       box2: null,
       key: null,
+      checked: true,
     }
   },
   props: {
@@ -221,6 +241,7 @@ export default {
 
 .key {
   margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 .salts {
