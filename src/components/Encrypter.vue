@@ -90,9 +90,6 @@ export default {
       box1: null,
       box2: null,
       key: null,
-      checked: false,
-      qrlink: 'https://vksitproject.vercel.app/#/',
-      qrsize: 300,
     }
   },
   props: {
