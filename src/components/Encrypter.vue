@@ -4,12 +4,8 @@
       <label for="exampleFormControlTextarea1" class="form-label"> Исходные данные</label>
       <textarea name="box1" v-model="box1" class="form-control" id="exampleFormControlTextarea1" placeholder="Введите текст для зашифровки/расшифровки..." rows="3"></textarea>
       <b-form-textarea name="key" v-model="key" class="key" id="textarea-small" size="sm" placeholder="Введите ключ..."></b-form-textarea>
-      <b-form-checkbox v-model="checked" name="check-button" switch> Показывать информацию о шифрах </b-form-checkbox>
-      <div class="salts">
-        <!-- <button class="btn btn-primary" @click="sha256()">SHA256</button>
-        <button class="btn btn-primary" @click="md5()">MD5</button>
-        <button class="btn btn-primary" @click="ripemd()">RIPEMD-160</button> -->
-      </div>
+      <b-form-checkbox v-model="checked" name="check-button" switch> Показывать информацию о шифрах</b-form-checkbox>
+      <div class="salts"></div>
       <div class="cryptButtons">
         <span id="help1" class="d-inline-block" tabindex="0">
           <button class="btn btn-primary" @click="VernamCrypt()">Шифр Вернама</button>
@@ -94,7 +90,9 @@ export default {
       box1: null,
       box2: null,
       key: null,
-      checked: true,
+      checked: false,
+      qrlink: 'https://vksitproject.vercel.app/#/',
+      qrsize: 300,
     }
   },
   props: {
@@ -150,19 +148,6 @@ export default {
           centered: true,
         })
       }
-    },
-
-    // TODO: Внести в функцию encrypt или удалить, так как соли не совсем подходят в концепцию программы
-    sha256() {
-      this.box2 = CryptoJS.SHA256(this.box1)
-    },
-
-    md5() {
-      this.box2 = CryptoJS.MD5(this.box1)
-    },
-
-    ripemd() {
-      this.box2 = CryptoJS.RIPEMD160(this.box1)
     },
 
     CezarCrypt() {
