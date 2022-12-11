@@ -4,7 +4,7 @@
       <label for="exampleFormControlTextarea1" class="form-label"> Исходные данные</label>
       <textarea name="box1" v-model="box1" class="form-control" id="exampleFormControlTextarea1" placeholder="Введите текст для зашифровки/расшифровки..." rows="3"></textarea>
       <b-form-textarea name="key" v-model="key" class="key" id="textarea-small" size="sm" placeholder="Введите ключ..."></b-form-textarea>
-      <b-form-checkbox v-model="checked" name="check-button" switch> Показывать информацию о шифрах</b-form-checkbox>
+      <b-form-checkbox v-model="checked" default="true" name="check-button" switch> Показывать информацию о шифрах</b-form-checkbox>
       <div class="salts"></div>
       <div class="cryptButtons">
         <span id="help1" class="d-inline-block" tabindex="0">
